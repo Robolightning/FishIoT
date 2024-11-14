@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule and Videos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+</head>
+<body>
+    <h1>Schedule</h1>
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Время</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr data-id="{{ item.id }}">
+                <td><input type="text" value="{{ item.title }}"></td>
+                <td><input type="time" value="{{ item.time }}"></td>
+                <td>
+                    <button class="delete-btn" onclick="deleteRow(this)">Удалить</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button onclick="addRow()">Добавить строку</button>
+    <button onclick="saveTable()">Сохранить изменения</button>
+
+    <h1>Videos</h1>
+    <div id="videos">
+        {% for video in videos %}
+        <div class="video" data-id="{{ video.id }}">
+            <p>{{ video.filename }} ({{ video.timestamp }})</p>
+            <a href="{{ url_for('routes.download_video', filename=video.filename) }}" target="_blank">Скачать</a>
+            <button onclick="deleteVideo(this)">Удалить</button>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
